@@ -1,3 +1,6 @@
+import sys
+print(sys.executable)
+
 from flask import Flask, request, render_template
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -21,22 +24,40 @@ def my_form():
 def my_form_post():
     stop_words = stopwords.words('english')
     
-    #convert to lowercase
+    # Convert to lowercase
     text1 = request.form['text1'].lower()
     
+    # Remove digits
     text_final = ''.join(c for c in text1 if not c.isdigit())
     
-    #remove punctuations
-    #text3 = ''.join(c for c in text2 if c not in punctuation)
-        
-    #remove stopwords    
+    # Remove stopwords
     processed_doc1 = ' '.join([word for word in text_final.split() if word not in stop_words])
 
+    # Sentiment analysis
     sa = SentimentIntensityAnalyzer()
     dd = sa.polarity_scores(text=processed_doc1)
-    compound = round((1 + dd['compound'])/2, 2)
+    compound = round(dd['compound'], 2)
+    sentiment_percentage = round(abs(compound) * 100,2)
+    #compound = round((1 + dd['compound'])/2, 2)
 
-    return render_template('form.html', final=compound, text1=text_final,text2=dd['pos'],text5=dd['neg'],text4=compound,text3=dd['neu'])
+   
+
+    # Determine sentiment
+    sentiment = "neutral"
+    if dd['compound'] >= 0.05:
+        sentiment = "positive"
+    elif dd['compound'] <= -0.05:
+        sentiment = "negative"
+
+    return render_template('form.html', 
+                           final=compound, 
+                           text1=text_final,
+                           text2=dd['pos'],
+                           text5=dd['neg'],
+                           text4=compound,
+                           text3=dd['neu'],
+                           sentiment=sentiment,
+                           original_text=text1)
 
 if __name__ == "__main__":
     app.run(debug=True, host="127.0.0.1", port=5002, threaded=True)

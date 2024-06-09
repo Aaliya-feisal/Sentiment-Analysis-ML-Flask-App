@@ -1,0 +1,47 @@
+# Python-specific ignores
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Log files
+*.log
+
+# Environment variables
+.env
+
+# Database files
+*.sqlite3
+*.db
+
+# Compiled files
+*.o
+*.obj
+*.dll
+*.class
+
+# Caches
+*.cache
+*.tmp
+
+# Backup files
+*.bak
+*.swp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Node.js dependencies
+node_modules/
+
+# Ignore any other specific directories or files
+your_specific_file_or_directory/
