@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Input - Sentiment Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: linear-gradient(to right, #a8edea, #fed6e3);
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        textarea, input[type="submit"] {
+            display: block;
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .result-table, .result-table th, .result-table td {
+            border: 1px solid black;
+        }
+        .result-table th, .result-table td {
+            padding: 10px;
+            text-align: left;
+        }
+        .result {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .result h2 {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Input Text for Sentiment Analysis</h1>
+        <form method="POST" action="/analyze_text">
+            <textarea name="text_input" rows="5" placeholder="Enter text here...">{{ original_text }}</textarea>
+            <input type="submit" value="Analyze Sentiment">
+        </form>
+        
+        {% if final %}
+            <div class="result">
+                <h2>The Sentiment of</h2>
+                <p>'{{ original_text }}'</p>
+                <h2>is {{ final*100 }}% {{ sentiment }}!</h2>
+            </div>
+            <h3>Score table</h3>
+            <table class="result-table">
+                <tr>
+                    <th>SENTIMENT METRIC</th>
+                    <th>SCORE</th>
+                </tr>
+                <tr>
+                    <td>Positive</td>
+                    <td>{{ text2 }}</td>
+                </tr>
+                <tr>
+                    <td>Neutral</td>
+                    <td>{{ text3 }}</td>
+                </tr>
+                <tr>
+                    <td>Negative</td>
+                    <td>{{ text5 }}</td>
+                </tr>
+                <tr>
+                    <td>Compound</td>
+                    <td>{{ text4 }}</td>
+                </tr>
+            </table>
+        {% endif %}
+    </div>
+</body>
+</html>
